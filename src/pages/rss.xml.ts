@@ -1,9 +1,29 @@
-import type { APIRoute } from "astro";
+import rss from "@astrojs/rss";
 
-export const GET = (({ params, request }) => {
-  return new Response(
-    JSON.stringify({
-      path: new URL(request.url).pathname,
-    }),
-  );
+import type { APIRoute } from "astro";
+import { getCollection } from "astro:content";
+
+export const GET = (async ({ params, request, site }) => {
+  const blogPosts = await getCollection("blog");
+  return rss({
+    //Web Feed Preview
+    //stylesheet: "/styles/rss.xsl",
+    // `<title>` field in output xml
+    title: "Benjasx's Blog",
+    // `<description>` field in output xml
+    description: "Un blog de mis aventuras con astro",
+    // Pull in your project "site" from the endpoint context
+    // https://docs.astro.build/en/reference/api-reference/#site
+    site: site ?? "",
+    // Array of `<item>`s in output xml
+    // See "Generating items" section for examples using content collections and glob imports
+    items: blogPosts.map(({ data, id }) => ({
+      title: data.title,
+      pubDate: data.date,
+      description: data.description,
+      link: `/posts/${id}/`,
+    })),
+    // (optional) inject custom xml
+    customData: `<language>es-mx</language>`,
+  });
 }) satisfies APIRoute;
