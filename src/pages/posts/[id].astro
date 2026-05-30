@@ -1,0 +1,73 @@
+---
+/* [id].astro */
+import { Formatter } from "@utils/formatter";
+import type { GetStaticPaths } from "astro";
+import { Image } from "astro:assets";
+import { getCollection, render, getEntry } from "astro:content";
+import BlogLayout from "src/layouts/BlogLayout.astro";
+
+export const getStaticPaths = (async () => {
+  const blogPosts = await getCollection("blog");
+  return blogPosts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const frontmatter = post.data;
+
+const { Content, headings } = await render(post);
+
+const author = (await getEntry("author", post.data.author.id))?.data;
+if (!author) {
+  throw new Error(`No se encontró el autor con ID: ${post.data.author.id}`);
+}
+---
+
+<BlogLayout title={frontmatter.title}>
+  <h1 class="text-xs text-gray-500 mb-0">{frontmatter.title}</h1>
+  <div class="text-md text-gray-500 mb-0 flex flex-row mt-2">
+    <Image
+      src={author.avatar}
+      alt={`image-${author.name}`}
+      class="rounded-full"
+      width={50}
+      height={50}
+    />
+
+    <div class="flex flex-col ml-5">
+      <a href={`/authors/${frontmatter.author.id}`}>{author.name}</a>
+      <span class="text-gray-200">{Formatter.formatDate(frontmatter.date)}</span
+      >
+    </div>
+  </div>
+  <Image
+    src={frontmatter.image}
+    alt={frontmatter.title}
+    quality="low"
+    loading="lazy"
+    class="w-full h-100 object-cover rounded-lg mb-10 mt-10"
+    transition:name=`${frontmatter.title}-image`
+  />
+
+  <!-- Tabla de contenidos -->
+  <h3>Tabla de Contenidos</h3>
+  <ol>
+    {
+      headings.map((heading, index) => (
+        <li>
+          <a href={`#${heading.slug}`}>
+            {index + 1} - {heading.text}
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+
+  <Content />
+
+  <div class="my-20">
+    <a href="#btn-back">Ir arriba</a>
+  </div>
+</BlogLayout>

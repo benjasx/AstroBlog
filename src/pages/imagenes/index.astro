@@ -1,0 +1,244 @@
+---
+/*
+    -------------------------------------------------
+    ----------  /devtalles.antonydev.tech  ----------
+    ----------  /01-curso-astro/ --------------------
+    ----------  /03-blog/  --------------------------
+    ----------  /src/images/  -----------------------
+    ----------  /index.astro  -----------------------
+    -------------------------------------------------
+*/
+
+import { Image, Picture } from "astro:assets";
+
+import post05Img from "@images/post-05.png";
+import MainLayout from "src/layouts/MainLayout.astro";
+---
+
+<MainLayout title="Imágenes">
+  <h1 class="text-5xl text-white text-center border border-b p-2.5">
+    Imágenes
+  </h1>
+
+  <section
+    class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10 justify-items-center"
+  >
+    <!--  -----  etiqueta img  -----  -->
+    <article>
+      <h2 class="text-white">Imagen 5 con etiqueta img</h2>
+
+      <img
+        loading="eager"
+        src="/assets/images/post-05.png"
+        width="300"
+        height="300"
+      />
+    </article>
+
+    <!--  -----  Componente Image de Astro  -----  -->
+    <article>
+      <h2 class="text-white">Imagen 5 con componente Image de Astro</h2>
+
+      <Image src={post05Img} width="300" height="300" alt="Imagen 5 del Post" />
+    </article>
+
+    <!--  -----  Componente Image de Astro - Quality low  -----  -->
+    <article>
+      <h2 class="text-white">
+        Imagen 5 con componente Image de Astro - Quality low
+      </h2>
+
+      <Image
+        quality="low"
+        src={post05Img}
+        width="300"
+        height="300"
+        alt="Imagen 5 del Post"
+      />
+    </article>
+
+    <!--  -----  Componente Image de Astro - Quality high  -----  -->
+    <article>
+      <h2 class="text-white">
+        Imagen 5 con componente Image de Astro - Quality High
+      </h2>
+
+      <Image
+        quality="high"
+        src={post05Img}
+        width="300"
+        height="300"
+        alt="Imagen 5 del Post"
+      />
+    </article>
+
+    <!--  -----  Componente Image de Astro - Quality max  -----  -->
+    <article>
+      <h2 class="text-white">
+        Imagen 5 con componente Image de Astro - Quality max
+      </h2>
+
+      <Image
+        quality="max"
+        src={post05Img}
+        width="300"
+        height="300"
+        alt="Imagen 5 del Post"
+      />
+    </article>
+
+    <!--  -----  Componente Image de Astro - Quality mid  -----  -->
+    <article>
+      <h2 class="text-white">
+        Imagen 5 con componente Image de Astro - Quality Mid
+      </h2>
+
+      <Image
+        quality="mid"
+        src={post05Img}
+        width="300"
+        height="300"
+        alt="Imagen 5 del Post"
+      />
+    </article>
+
+    <!--  -----  Componente Image de Astro - Format jpg  -----  -->
+    <article>
+      <h2 class="text-white">
+        Imagen 5 con componente Image de Astro - Format JPG
+      </h2>
+
+      <Image
+        format="jpg"
+        src={post05Img}
+        width="300"
+        height="300"
+        alt="Imagen 5 del Post"
+      />
+    </article>
+
+    <!--  -----  Componente Image de Astro - Format png  -----  -->
+    <article>
+      <h2 class="text-white">
+        Imagen 5 con componente Image de Astro - Format PNG
+      </h2>
+
+      <Image
+        format="png"
+        src={post05Img}
+        width="300"
+        height="300"
+        alt="Imagen 5 del Post"
+      />
+    </article>
+
+    <!--  -----  Componente Picture de Astro - Format jpeg  -----  -->
+    <article>
+      <h2 class="text-white">
+        Imagen 5 con componente Picture de Astro - Formato jpeg
+      </h2>
+
+      <Picture
+        format="jpeg"
+        src={post05Img}
+        width="300"
+        height="300"
+        alt="Imagen 5 del Post"
+      />
+    </article>
+
+    <!--  -----  Componente Picture de Astro - Format webp  -----  -->
+    <article>
+      <h2 class="text-white">
+        Imagen 5 con componente Picture de Astro - Formato webp
+      </h2>
+
+      <Picture
+        format="webp"
+        src={post05Img}
+        width="300"
+        height="300"
+        alt="Imagen 5 del Post"
+      />
+    </article>
+
+    <!--  -----  Componente Picture de Astro - Format avif  -----  -->
+    <article>
+      <h2 class="text-white">
+        Imagen 5 con componente Picture de Astro - Formato avif
+      </h2>
+
+      <Picture
+        format="avif"
+        src={post05Img}
+        width="300"
+        height="300"
+        alt="Imagen 5 del Post"
+      />
+    </article>
+
+    <!--  -----  Componente Picture de Astro - Tamaños  -----  -->
+    <article>
+      <h2 class="text-white">
+        Imagen 5 con componente Picture de Astro - Tamaños
+      </h2>
+
+      <Picture
+        formats={["webp", "avif", "jpeg", "png", "jpg"]}
+        src={post05Img}
+        width="300"
+        height="300"
+        alt="Imagen 5 del Post"
+      />
+    </article>
+  </section>
+
+  <!--  -----  Componente Picture de Astro - Tamaños media queries  -----  -->
+  <article>
+    <h2 class="text-white">
+      Imagen 5 con componente Picture de Astro - Tamaños media queries
+    </h2>
+
+    <Picture
+      src={post05Img}
+      widths={[240, 540, 720, post05Img.width]}
+      sizes={` (max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px, ${post05Img.width}px `}
+      alt="Imagen 5 del Post"
+    />
+  </article>
+
+  <!--  -----  Componente Picture de Astro - densities  -----  -->
+  <article class="place-self-center-safe mt-10">
+    <h2 class="text-white">
+      Imagen 5 con componente Picture de Astro - Densidades de pixeles
+    </h2>
+
+    <Picture
+      src={post05Img}
+      width={post05Img.width / 2}
+      height={post05Img.height / 2}
+      densities={[1.5, 2]}
+      alt="Imagen 5 del Post"
+    />
+  </article>
+
+  <!--  -----  Espaciador  -----  -->
+  <div
+    style={{
+      height: "2500px",
+    }}
+  >
+  </div>
+
+  <!--  -----  etiqueta img con lazy loading  -----  -->
+  <article class="place-self-center-safe mt-10 mb-14">
+    <h2 class="text-white">Imagen 1 con etiqueta img</h2>
+
+    <img
+      loading="lazy"
+      src="/assets/images/post-01.png"
+      width="250"
+      height="250"
+    />
+  </article>
+</MainLayout>

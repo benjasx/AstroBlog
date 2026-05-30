@@ -1,0 +1,68 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import TypedBlogPost from "@components/TypedBlogPost.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const blogPosts = await getCollection("blog", (post) => !post.data.isDraft);
+  return paginate(blogPosts, { pageSize: 4 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<MainLayout>
+  <div class="container px-6 py-10 mx-auto">
+    <div class="py-10 mx-auto">
+      <h1 class="text-3xl font-semibold capitalize lg:text-4xl text-white">
+        Blog Paginado
+      </h1>
+    </div>
+    <a href="/" class="text-blue-500 hover:underline">Ir al inicio</a>
+
+    <section class="bg-gray-900" aria-label="Entradas de blog">
+      <div class="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2">
+        {page.data.map((post) => <TypedBlogPost post={post} />)}
+      </div>
+    </section>
+
+    <!-- Controles de navegación -->
+    <section
+      aria-label="Controles"
+      class="flex justify-between mt-10 items-center"
+    >
+      <!-- Botón Anteriores -->
+      <a
+        href={page.url.prev}
+        class:list={[
+          "p-2 rounded-md text-white transition-colors",
+          {
+            "bg-blue-500 hover:bg-blue-600": page.url.prev,
+            "bg-gray-600 opacity-50 pointer-events-none": !page.url.prev,
+          },
+        ]}
+      >
+        Anteriores
+      </a>
+
+      <span class="text-white font-medium">
+        Página {page.currentPage} de {page.lastPage}
+      </span>
+
+      <!-- Botón Siguientes -->
+      <a
+        href={page.url.next}
+        class:list={[
+          "p-2 rounded-md text-white transition-colors",
+          {
+            "bg-blue-500 hover:bg-blue-600": page.url.next,
+            "bg-gray-600 opacity-50 pointer-events-none": !page.url.next,
+          },
+        ]}
+      >
+        Siguientes
+      </a>
+    </section>
+  </div>
+</MainLayout>
